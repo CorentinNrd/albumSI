@@ -82,12 +82,15 @@ export default function HomePage() {
             >
                 {songs.map((song, index) => (
                     <SwiperSlide key={index} className="my-2">
-                        <div className="song-block" style={{backgroundImage: `url(${song.cover || COVER});`, backgroundSize: 'cover'}}>
-                            <strong>{song.title}</strong>
-                            <audio controls className="ml-2">
-                                <source src={song.src} type="audio/mp3"/>
-                            </audio>
-                        </div>
+                        <img src={song.cover || COVER} alt={song.title} className="w-full h-full object-cover"/>
+
+                        <audio controls className="absolute bottom-4" onPlay={e => {
+                            document.querySelectorAll('audio').forEach(audio => {
+                                if (audio !== e.target) audio.pause();
+                            });
+                        }}>
+                            <source src={song.src} type="audio/mp3"/>
+                        </audio>
                     </SwiperSlide>
                 ))}
             </Swiper>

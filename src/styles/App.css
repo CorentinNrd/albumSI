@@ -5,17 +5,20 @@
 }
 
 .swiper-slide {
-    background-position: center;
-    background-size: cover;
-    width: 300px;
-    height: 300px;
+    width: fit-content;
+    height: auto;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: transparent;
 }
 
 .swiper-slide img {
     display: block;
     width: 100%;
+    object-fit: contain;
+    border-radius: 20px;
 }
 
 .song-block {
@@ -26,7 +29,6 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px;
-    background-color: red;
     height: 300px;
     width: fit-content;
 }
