@@ -41,6 +41,8 @@ import {EffectCoverflow, Navigation} from 'swiper/modules';
 
 export default function HomePage() {
 
+    const [currentSong, setCurrentSong] = useState(null);
+
     const [songs] = useState([
         {title: "New Attitude", src: NEWATTITUDE},
         {title: "La Danse de PA", src: LADANSE, cover: COVER02},
@@ -61,7 +63,6 @@ export default function HomePage() {
         {title: "Client PA", src: CLIENT},
         {title: "B.R.U roi cacuite", src: BRUCACUITE, cover: COVER18},
     ]);
-
 
     return (
         <div>
@@ -84,11 +85,21 @@ export default function HomePage() {
                     <SwiperSlide key={index} className="my-2">
                         <img src={song.cover || COVER} alt={song.title} className="w-full h-full object-cover"/>
 
-                        <audio controls className="absolute bottom-4" onPlay={e => {
-                            document.querySelectorAll('audio').forEach(audio => {
-                                if (audio !== e.target) audio.pause();
-                            });
-                        }}>
+                        <audio controls className="absolute bottom-4"
+                               onPlay={e => {
+                                   document.querySelectorAll('audio').forEach(audio => {
+                                       if (audio !== e.target) audio.pause();
+                                   });
+                               }}
+                               onEnded={() => {
+                                   const nextIndex = (index + 1) % songs.length;
+                                   const nextAudio = document.querySelectorAll('audio')[nextIndex];
+                                   if (nextAudio) {
+                                       nextAudio.play();
+                                       const swiper = document.querySelector('.swiper').swiper;
+                                       swiper.slideToLoop(nextIndex);
+                                   }
+                               }}>
                             <source src={song.src} type="audio/mp3"/>
                         </audio>
                     </SwiperSlide>
